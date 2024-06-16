@@ -50,7 +50,7 @@ def insert_rows():
     for m in ms:
         print(f'{m.microservice:<10} | {m.token}')
     print('------------------------------------------------------------------------------------------------------------')
-    # Close the session
+
     session.close()
 
 # Main execution
