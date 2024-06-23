@@ -1,13 +1,16 @@
-# auth
+# Authentication
 
-# Requirements
+## Requirements
 `pip install -r req.txt`
 
-# Run server
+## Run server
 `uvicorn main:app --reload`
 
-# Docs
+## Docs
 `/docs` or `/redoc`
 
-# FYI
+## Authentication process
+![Authentication process](imgs/image.png)
+
+## FYI
 [Argon2](https://argon2-cffi.readthedocs.io/en/stable/argon2.html#)
