@@ -22,18 +22,16 @@ ph = argon2.PasswordHasher()
 
 @app.post('/token/{token}', status_code=200)
 async def login(token: str):
-    session = SessionLocal()
     ms = get_microservice_id(token)
+    session = SessionLocal()
     ms_db = session.query(Auth).filter_by(microservice=ms).one_or_none()
     session.close()
 
-    if ms_db:
-        try:
-            print(f'{ms_db.microservice} | {ms}')
-            print(f'{ms_db.token} | {token}')
-            ph.verify(ms_db.token, token)
-            return f"Authentiction succeed for {ms}"
-        except VerifyMismatchError:
-            raise HTTPException(status_code=403, detail=f"Incorrect token for user {ms}")
-    else:
-        raise HTTPException(status_code=404, detail="Unrecognized microservice")
+    if not ms_db:
+        raise HTTPException(status_code=403)
+
+    try:
+        ph.verify(ms_db.token, token)
+        return {'authenticated': ms}
+    except VerifyMismatchError:
+        raise HTTPException(status_code=403)
